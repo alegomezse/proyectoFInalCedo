@@ -7,13 +7,12 @@ m2 = 3.0#kg
 lon1 = 4.0#cm
 lon2 = 2.0#cm
 #VARIABLES INICIALES
-#es necesario darle valores iniciales y actualizar ao, bo, yo Y go con los valores iniciales de cada uno
-x1,x2,x3,x4 = 0
-bo,go = 0
-a = x2
-b = bo #falta hacer la eq. de este miserable
-y = x4
-g = go #falta hacer la eq. de este otro miserable
+#es necesario darle valores iniciales  con los valores iniciales de cada uno
+x1 = 1
+x2 = 0
+x3 = 1
+x4 = 0
+
 
 #FUNCIONES DEL PENDULO
 
