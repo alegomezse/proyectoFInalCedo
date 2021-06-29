@@ -1,66 +1,81 @@
 import numpy as np
 import math as m
 #CONDICIONES INICIALES
-vo = np.array([1,0],dtype = float)
 g = 9.8#m/s**2
 m1 = 2.0#kg
 m2 = 3.0#kg
 lon1 = 4.0#cm
 lon2 = 2.0#cm
 #VARIABLES INICIALES
+#es necesario darle valores iniciales y actualizar ao, bo, yo Y go con los valores iniciales de cada uno
 x1,x2,x3,x4 = 0
-ao,bo,yo,go = 0
-a = ao
-b = bo
-y = yo
-g = go
+bo,go = 0
+a = x2
+b = bo #falta hacer la eq. de este miserable
+y = x4
+g = go #falta hacer la eq. de este otro miserable
 
 #FUNCIONES DEL PENDULO
+
 def l(dt,x1,x2,x3,x4):
-    a = 0
-    return a
+    """
+    l = theta prima  = x2
+    """
+    lRespuesta = x2 
+    return lRespuesta
     
 def mm(dt,x1,x2,x3,x4):
-    a = 0
-    return a
+    """
+    se definio como mm porque m se usa para la libreria .math
+    """
+    mArriba = ( -g*(2*m1 + m2)*m.sin(x1-2*x3) - m2*g*m.sin(x1-2*x3)-2*m.sin(x1-x3)*m2*(pow(x4,2)*lon2+pow(x2,2)*lon1*m.cos(x1-x3)) )
+    mAbajo = lon1*(2*m1 + m2 -m2*m.cos(2*x1-2*x3))
+    mResultado = mArriba/mAbajo
+    return mResultado
 def n(dt,x1,x2,x3,x4):
-    a = 0
-    return a
+    """
+    n = theta 2 prima  = x4
+    """
+    nRespuesta = x4
+    return nRespuesta
+
 def o(dt,x1,x2,x3,x4):
-    a = 0
-    return a
+    oArriba = 2*m.sin(x1-x3)*(pow(x2,2)*lon1*(m1+m2)+g*(m1+m2)*m.cos(x1)+pow(x4,2)*lon2*m2*m.cos(x1-x3))
+    oAbajo  = lon2*(2*m1+m2 -m2*m.cos(2*x1-2*x3))
+    oRespuesta = oArriba/oAbajo
+    return oRespuesta
 
 
 #RK4 SEGÚN EL PROFE
 def rk4(N,a,b,y,g):
-    v = vo
     t = 0
     dt = 0.2
     for i in range(N):
         l1 = l(t,a,b,y,g)
-        l2 = l(t + dt/2,a+((dt*l1)/2),b +((m1*dt)/2),y +((n1*dt)/2),y +((o1*dt)/2))
-        l3 = l(t + dt/2,a+((dt*l2)/2),b +((m2*dt)/2),y +((n2*dt)/2),y +((o2*dt)/2))
-        l4 = l(t + dt,a+((dt*l3)),b +((m3*dt)),y +((n3*dt)),y +((o3*dt)))
+        l2 = l(t + dt/2,a+((dt*l1)/2),b +((mm1*dt)/2),y +((n1*dt)/2),y +((o1*dt)/2))
+        l3 = l(t + dt/2,a+((dt*l2)/2),b +((mm2*dt)/2),y +((n2*dt)/2),y +((o2*dt)/2))
+        l4 = l(t + dt,a+((dt*l3)),b +((mm3*dt)),y +((n3*dt)),y +((o3*dt)))
 
-        m1 = mm(t,a,b,y,g)
-        m2 = mm(t + dt/2,a+((dt*l1)/2),b +((m1*dt)/2),y +((n1*dt)/2),y +((o1*dt)/2))
-        m3 = mm(t + dt/2,a+((dt*l2)/2),b +((m2*dt)/2),y +((n2*dt)/2),y +((o2*dt)/2))
-        m4 = mm(t + dt,a+((dt*l3)),b +((m3*dt)),y +((n3*dt)),y +((o3*dt)))
+        mm1 = mm(t,a,b,y,g)
+        mm2 = mm(t + dt/2,a+((dt*l1)/2),b +((mm1*dt)/2),y +((n1*dt)/2),y +((o1*dt)/2))
+        mm3 = mm(t + dt/2,a+((dt*l2)/2),b +((mm2*dt)/2),y +((n2*dt)/2),y +((o2*dt)/2))
+        mm4 = mm(t + dt,a+((dt*l3)),b +((mm3*dt)),y +((n3*dt)),y +((o3*dt)))
 
         n1 = n(t,a,b,y,g)
-        n2 = n(t + dt/2,a+((dt*l1)/2),b +((m1*dt)/2),y +((n1*dt)/2),y +((o1*dt)/2))
-        n3 = n(t + dt/2,a+((dt*l2)/2),b +((m2*dt)/2),y +((n2*dt)/2),y +((o2*dt)/2))
-        n4 = n(t + dt,a+((dt*l3)),b +((m3*dt)),y +((n3*dt)),y +((o3*dt)))
+        n2 = n(t + dt/2,a+((dt*l1)/2),b +((mm1*dt)/2),y +((n1*dt)/2),y +((o1*dt)/2))
+        n3 = n(t + dt/2,a+((dt*l2)/2),b +((mm2*dt)/2),y +((n2*dt)/2),y +((o2*dt)/2))
+        n4 = n(t + dt,a+((dt*l3)),b +((mm3*dt)),y +((n3*dt)),y +((o3*dt)))
         
         o1 = o(t,a,b,y,g)
-        o2 = o(t + dt/2,a+((dt*l1)/2),b +((m1*dt)/2),y +((n1*dt)/2),y +((o1*dt)/2))
-        o3 = o(t + dt/2,a+((dt*l2)/2),b +((m2*dt)/2),y +((n2*dt)/2),y +((o2*dt)/2))
-        o4 = o(t + dt,a+((dt*l3)),b +((m3*dt)),y +((n3*dt)),y +((o3*dt)))
+        o2 = o(t + dt/2,a+((dt*l1)/2),b +((mm1*dt)/2),y +((n1*dt)/2),y +((o1*dt)/2))
+        o3 = o(t + dt/2,a+((dt*l2)/2),b +((mm2*dt)/2),y +((n2*dt)/2),y +((o2*dt)/2))
+        o4 = o(t + dt,a+((dt*l3)),b +((mm3*dt)),y +((n3*dt)),y +((o3*dt)))
 
         a += dt/6*(l1+2*l2+2*l3+l4)
-        b += dt/6*(m1+2*m2+2*m3+m4)
+        b += dt/6*(mm1+2*mm2+2*mm3+mm4)
         y += dt/6*(n1+2*n2+2*n3+n4)
         g += dt/6*(o1+2*o2+2*o3+o4)
+
 
         
 
