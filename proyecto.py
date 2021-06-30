@@ -1,18 +1,19 @@
 import numpy as np
+import matplotlib.pyplot as plt
 import math as m
 #CONDICIONES INICIALES
 g = 9.8#m/s**2
 m1 = 2.0#kg
-m2 = 3.0#kg
+m2 = 2.0#kg
 t = 0
-lon1 = 4.0#cm
-lon2 = 2.0#cm
+lon1 = 1.0#cm
+lon2 = 1.0#cm
 #VARIABLES INICIALES
 #es necesario darle valores iniciales  con los valores iniciales de cada uno
-x1 = 1
-x2 = 0
-x3 = 1
-x4 = 0
+x1 = 0.01
+x2 = 0.01
+x3 = 0.01
+x4 = 0.01
 
 
 #FUNCIONES DEL PENDULO
@@ -52,7 +53,13 @@ y = n(t,x1,x2,x3,x4)
 g = o(t,x1,x2,x3,x4)
 #RK4 SEGÚN EL PROFE
 def rk4(N,a,b,y,g):  
-    dt = 0.2
+    dt      = 0.0250
+    count   = 0
+    ejex    = []
+    theta1  = []
+    theta1P = []
+    theta2  = []
+    theta2P = []
     for i in range(N):
         l1 = l(t,a,b,y,g)
         mm1 = mm(t,a,b,y,g)
@@ -79,7 +86,21 @@ def rk4(N,a,b,y,g):
         y += dt/6*(n1+2*n2+2*n3+n4)
         g += dt/6*(o1+2*o2+2*o3+o4)
         print(a," ",b," ",y," ",g)
-rk4(10, a,b,y,g)
+          #plot 
+        ejex.append(count)   
+        theta1.append(a)
+        theta1P.append(b)
+        theta2.append(y)
+        theta2P.append(g)
+        #
+        count += 1
+    
+
+    fig, angulo1 = plt.subplots()  # Create a figure and an axes.
+    angulo1.plot(theta1, theta2)  # Plot some data on the axes.
+    plt.show()
+   
+rk4(10000, a,b,y,g)
         
 
     
