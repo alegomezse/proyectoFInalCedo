@@ -29,7 +29,7 @@ def mm(dt,x1,x2,x3,x4):
     """
     se definio como mm porque m se usa para la libreria .math
     """
-    mArriba = ( -g*(2*m1 + m2)*m.sin(x1-2*x3) - m2*g*m.sin(x1-2*x3)-2*m.sin(x1-x3)*m2*(pow(x4,2)*lon2+pow(x2,2)*lon1*m.cos(x1-x3)) )
+    mArriba = ( -g*(2*m1 + m2)*m.sin(x1) - m2*g*m.sin(x1-2*x3)-2*m.sin(x1-x3)*m2*(pow(x4,2)*lon2+pow(x2,2)*lon1*m.cos(x1-x3)) )
     mAbajo = lon1*(2*m1 + m2 -m2*m.cos(2*x1-2*x3))
     mResultado = mArriba/mAbajo
     return mResultado
